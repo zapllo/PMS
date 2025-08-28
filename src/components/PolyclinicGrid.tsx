@@ -1,15 +1,38 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { MapPin, Phone, User, Clock, AlertTriangle, CheckCircle2, ArrowRight, Users, Settings2, Truck } from 'lucide-react'
+import { Phone, User, Clock, AlertTriangle, CheckCircle2, ArrowRight, Users, Settings2, Truck } from 'lucide-react'
+
+interface Polyclinic {
+  id: string
+  name: string
+  code: string
+  city: string
+  phone: string
+  inCharge: string
+  status: string
+  hasIssues: boolean
+  lastUpdated: string
+  stats: {
+    totalStaff: number
+    serviceableEquipment: number
+    vehicles: number
+  }
+}
 
 interface PolyclinicGridProps {
-  polyclinics: any[]
-  onSelect: (polyclinic: any) => void
+  polyclinics: Polyclinic[]
+  onSelect: (polyclinic: Polyclinic) => void
+}
+
+interface StatusConfig {
+  badge: { variant: 'destructive' | 'default' | 'secondary', text: string }
+  indicator: { color: string, icon: React.ComponentType<{ className?: string }>, iconColor: string }
+  status: string
 }
 
 export default function PolyclinicGrid({ polyclinics, onSelect }: PolyclinicGridProps) {
-  const getStatusConfig = (polyclinic: any) => {
+  const getStatusConfig = (polyclinic: Polyclinic): StatusConfig => {
     if (polyclinic.hasIssues) {
       return {
         badge: { variant: 'destructive' as const, text: 'Issues Detected' },
