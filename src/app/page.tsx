@@ -16,6 +16,7 @@ import VehiclesView from '@/components/VehiclesView'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { getPolyclinicActivity, getPolyclinicEquipment, getPolyclinicPersonnel, getPolyclinicReports, getPolyclinicVehicles, mockPolyclinics } from '@/lib/mockData'
+import CommunicationsView from '@/components/CommunicationsView'
 
 export default function Home() {
   const [currentView, setCurrentView] = useState('dashboard')
@@ -134,6 +135,8 @@ export default function Home() {
         return <EquipmentView />
       case 'vehicles':
         return <VehiclesView />
+      case 'communications':
+        return <CommunicationsView />
       default:
         return (
           <div className="flex items-center justify-center h-96">
@@ -229,11 +232,10 @@ function PolyclinicDetail({ polyclinic, onBack }) {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
-                  activeTab === tab.id
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${activeTab === tab.id
                     ? 'bg-slate-900 text-white'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                }`}
+                  }`}
               >
                 {tab.label}
               </button>
@@ -276,7 +278,7 @@ function OverviewTab({ polyclinic }) {
                 <div className="text-slate-600 text-xs font-semibold uppercase tracking-wide">Phone</div>
                 <div className="text-sm text-slate-900">{polyclinic.phone}</div>
               </div>
-              
+
               {polyclinic.military && (
                 <div className="flex flex-col gap-1 p-3 bg-slate-50 rounded-lg">
                   <div className="text-slate-600 text-xs font-semibold uppercase tracking-wide">Military</div>
@@ -346,10 +348,10 @@ function OverviewTab({ polyclinic }) {
 // Updated Personnel Tab with real data
 function PersonnelTab({ polyclinic }) {
   const personnelData = getPolyclinicPersonnel(polyclinic.id);
-  
+
   const getStatusColor = (status) => {
-    return status === 'full' 
-      ? 'bg-emerald-100 text-emerald-800 border-emerald-300' 
+    return status === 'full'
+      ? 'bg-emerald-100 text-emerald-800 border-emerald-300'
       : 'bg-red-100 text-red-800 border-red-300';
   }
 
@@ -435,9 +437,8 @@ function PersonnelTab({ polyclinic }) {
                       </span>
                     </td>
                     <td className="text-center py-3 px-2">
-                      <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold ${
-                        person.vacancy > 0 ? 'bg-red-100 text-red-800' : 'bg-slate-100 text-slate-600'
-                      }`}>
+                      <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold ${person.vacancy > 0 ? 'bg-red-100 text-red-800' : 'bg-slate-100 text-slate-600'
+                        }`}>
                         {person.vacancy}
                       </span>
                     </td>
@@ -459,7 +460,7 @@ function PersonnelTab({ polyclinic }) {
 // Updated Equipment Tab with real data
 function EquipmentTab({ polyclinic }) {
   const equipmentData = getPolyclinicEquipment(polyclinic.id);
-  
+
   const getStatusColor = (status) => {
     const colors = {
       'Serviceable': 'bg-emerald-100 text-emerald-800 border-emerald-300',
@@ -470,8 +471,8 @@ function EquipmentTab({ polyclinic }) {
   }
 
   const getWarrantyColor = (warranty) => {
-    return warranty === 'Active' 
-      ? 'bg-blue-100 text-blue-800 border-blue-300' 
+    return warranty === 'Active'
+      ? 'bg-blue-100 text-blue-800 border-blue-300'
       : 'bg-slate-100 text-slate-700 border-slate-300';
   }
 
@@ -591,7 +592,7 @@ function EquipmentTab({ polyclinic }) {
 // Updated Vehicles Tab with real data
 function VehiclesTab({ polyclinic }) {
   const vehicleData = getPolyclinicVehicles(polyclinic.id);
-  
+
   const getStatusColor = (status) => {
     const colors = {
       'Available': 'bg-emerald-100 text-emerald-800 border-emerald-300',
@@ -674,7 +675,7 @@ function VehiclesTab({ polyclinic }) {
 // Updated Reports Tab with real data
 function ReportsTab({ polyclinic }) {
   const reportsData = getPolyclinicReports(polyclinic.id);
-  
+
   const getStatusColor = (status) => {
     const colors = {
       'Accepted': 'bg-emerald-100 text-emerald-800 border-emerald-300',
@@ -740,7 +741,7 @@ function ReportsTab({ polyclinic }) {
 // Updated Activity Tab with real data
 function ActivityTab({ polyclinic }) {
   const activityData = getPolyclinicActivity(polyclinic.id);
-  
+
   const getActivityIcon = (type) => {
     const icons = {
       personnel: '👥',

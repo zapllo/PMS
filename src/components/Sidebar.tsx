@@ -3,15 +3,15 @@
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { 
-  LayoutDashboard, 
-  Building2, 
-  Users, 
-  Settings2, 
-  Truck, 
-  FileText, 
-  MessageSquare, 
-  Bell, 
+import {
+  LayoutDashboard,
+  Building2,
+  Users,
+  Settings2,
+  Truck,
+  FileText,
+  MessageSquare,
+  Bell,
   HeadphonesIcon,
   Settings,
   LogOut,
@@ -20,7 +20,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  User
+  User,
+  MessageSquareMore
 } from 'lucide-react'
 import { useState } from 'react'
 
@@ -45,7 +46,7 @@ const menuSections = [
     items: [
       { id: 'reports', label: 'Returns', icon: FileText, badge: '3', priority: true, description: 'Monthly Returns' },
       { id: 'announcements', label: 'Orders', icon: Bell, badge: null, priority: false, description: 'Official Orders' },
-      { id: 'communications', label: 'Messages', icon: MessageSquare, badge: null, priority: false, description: 'Communications' },
+      { id: 'communications', label: 'Veterans', icon: MessageSquareMore, badge: null, priority: false, description: 'War Veterans' },
     ]
   },
   {
@@ -96,7 +97,7 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
 
       {/* Mobile Overlay */}
       {isMobileOpen && (
-        <div 
+        <div
           className="lg:hidden fixed inset-0 bg-slate-900/50 z-40"
           onClick={() => setIsMobileOpen(false)}
         />
@@ -115,7 +116,7 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
             isCollapsed ? "lg:justify-center" : "justify-between"
           )}>
             <div className={cn("flex items-center gap-3", isCollapsed && "lg:justify-center")}>
-              <div className="relative">
+              {/* <div className="relative">
                 <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
                   <Shield className="h-5 w-5 text-white" />
                 </div>
@@ -124,16 +125,19 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
                     <span className="text-xs font-bold text-white">{getTotalPriorityItems()}</span>
                   </div>
                 )}
-              </div>
-              
+              </div> */}
+
               {!isCollapsed && (
-                <div className="flex-1">
-                  <h2 className="text-lg font-bold text-slate-900">ECHS Portal</h2>
-                  <p className="text-xs text-slate-600 font-medium">Regional Centre</p>
+                <div className=" flex justify-center gap-4 w-full items-center">
+                  <img src='/logo.png' className='h-16 ' />
+                  <div>
+                    <h1 className='text-2xl font-bold'>PMS Portal</h1>
+                    <p className='text-xs'>Polyclinic Management System</p>
+                  </div>
                 </div>
               )}
             </div>
-            
+
             <Button
               variant="ghost"
               size="sm"
@@ -144,7 +148,7 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
             </Button>
           </div>
         </div>
-        
+
         {/* Navigation */}
         <nav className="flex-1 p-4 overflow-y-auto">
           <div className="space-y-6">
@@ -157,12 +161,12 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
                     </h3>
                   </div>
                 )}
-                
+
                 <div className="space-y-1">
                   {section.items.map((item) => {
                     const Icon = item.icon
                     const isActive = currentView === item.id
-                    
+
                     return (
                       <div key={item.id} className="relative group">
                         <button
@@ -182,7 +186,7 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
                               <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-600 rounded-full"></div>
                             )}
                           </div>
-                          
+
                           {!isCollapsed && (
                             <div className="flex-1 flex items-center justify-between min-w-0">
                               <div className="text-left flex-1 min-w-0">
@@ -190,7 +194,7 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
                                 <div className="text-xs opacity-75 truncate">{item.description}</div>
                               </div>
                               {item.badge && (
-                                <Badge 
+                                <Badge
                                   variant={item.priority ? "destructive" : "secondary"}
                                   className="h-5 px-2 text-xs ml-2 flex-shrink-0"
                                 >
@@ -230,30 +234,30 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
               </div>
               <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
             </div>
-            
+
             {!isCollapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-slate-900 truncate">Admin Officer</p>
+                <p className="text-sm font-semibold text-slate-900 truncate">Admin PMS</p>
                 <p className="text-xs text-slate-600 truncate">Regional Centre</p>
               </div>
             )}
           </div>
-          
+
           {/* Control Buttons */}
           <div className="flex gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
+            <Button
+              variant="outline"
+              size="sm"
               className={cn("flex-1 border-slate-300", isCollapsed && "lg:w-auto")}
               onClick={() => setIsCollapsed(!isCollapsed)}
             >
               {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
               {!isCollapsed && <span className="ml-1 hidden sm:inline">Collapse</span>}
             </Button>
-            
+
             {!isCollapsed && (
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="sm"
                 className="flex-1 text-red-700 border-red-300 hover:bg-red-50"
               >
