@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Regional Centre Portal",
-  description: "Modern administrative portal for Regional Centre and Polyclinics - streamlined, professional, and responsive",
+  title: "ECHS Regional Centre Portal",
+  description: "Official administrative portal for Ex-Servicemen Contributory Health Scheme - Regional Centre and Polyclinics management system",
 };
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-br from-gray-50 to-gray-100/50 min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-slate-50 min-h-screen`}
       >
         {children}
       </body>

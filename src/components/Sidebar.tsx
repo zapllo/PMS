@@ -16,49 +16,43 @@ import {
   Settings,
   LogOut,
   Shield,
-  AlertCircle,
   Menu,
   X,
   ChevronLeft,
   ChevronRight,
-  Activity,
-  User,
-  Zap,
-  Moon,
-  Sun
+  User
 } from 'lucide-react'
-import { useState, useEffect } from 'react'
-import { useTheme } from 'next-themes'
+import { useState } from 'react'
 
 const menuSections = [
   {
-    title: 'Operations',
+    title: 'Command',
     items: [
-      { id: 'dashboard', label: 'Command Center', icon: LayoutDashboard, badge: null, priority: false, description: 'System Overview' },
-      { id: 'polyclinics', label: 'Medical Facilities', icon: Building2, badge: null, priority: false, description: 'Facility Management' },
+      { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, badge: null, priority: false, description: 'Overview' },
+      { id: 'polyclinics', label: 'Polyclinics', icon: Building2, badge: null, priority: false, description: 'ECHS Facilities' },
     ]
   },
   {
-    title: 'Resources',
+    title: 'Operations',
     items: [
-      { id: 'manpower', label: 'Personnel', icon: Users, badge: '47', priority: true, description: 'Staff Management' },
-      { id: 'equipment', label: 'Equipment', icon: Settings2, badge: '23', priority: true, description: 'Asset Management' },
-      { id: 'vehicles', label: 'Fleet', icon: Truck, badge: null, priority: false, description: 'Vehicle Operations' },
+      { id: 'manpower', label: 'Personnel', icon: Users, badge: '12', priority: true, description: 'Staff Management' },
+      { id: 'equipment', label: 'Equipment', icon: Settings2, badge: '5', priority: true, description: 'Asset Management' },
+      { id: 'vehicles', label: 'Fleet', icon: Truck, badge: null, priority: false, description: 'Vehicle Status' },
     ]
   },
   {
     title: 'Administration',
     items: [
-      { id: 'reports', label: 'Reports', icon: FileText, badge: '8', priority: true, description: 'Documentation' },
-      { id: 'announcements', label: 'Announcements', icon: Bell, badge: null, priority: false, description: 'Official Communications' },
-      { id: 'communications', label: 'Messages', icon: MessageSquare, badge: null, priority: false, description: 'Internal Communications' },
+      { id: 'reports', label: 'Returns', icon: FileText, badge: '3', priority: true, description: 'Monthly Returns' },
+      { id: 'announcements', label: 'Orders', icon: Bell, badge: null, priority: false, description: 'Official Orders' },
+      { id: 'communications', label: 'Messages', icon: MessageSquare, badge: null, priority: false, description: 'Communications' },
     ]
   },
   {
-    title: 'System',
+    title: 'Support',
     items: [
-      { id: 'tickets', label: 'Support', icon: HeadphonesIcon, badge: '12', priority: true, description: 'Technical Support' },
-      { id: 'settings', label: 'Settings', icon: Settings, badge: null, priority: false, description: 'System Configuration' },
+      { id: 'tickets', label: 'Support', icon: HeadphonesIcon, badge: '4', priority: false, description: 'Technical Support' },
+      { id: 'settings', label: 'Settings', icon: Settings, badge: null, priority: false, description: 'System Settings' },
     ]
   }
 ]
@@ -71,12 +65,6 @@ interface SidebarProps {
 export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isMobileOpen, setIsMobileOpen] = useState(false)
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const getTotalPriorityItems = () => {
     return menuSections
@@ -87,23 +75,19 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
 
   const handleViewChange = (view: string) => {
     onViewChange(view)
-    setIsMobileOpen(false) // Close mobile menu when item is selected
-  }
-
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark')
+    setIsMobileOpen(false)
   }
 
   return (
     <>
-      {/* Mobile Menu Button - Only show when sidebar is closed */}
+      {/* Mobile Menu Button */}
       {!isMobileOpen && (
-        <div className="lg:hidden fixed top-4 left-4 z-50">
+        <div className="lg:hidden fixed top-6 left-6 z-50">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setIsMobileOpen(true)}
-            className="bg-white dark:bg-gray-800 shadow-lg border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
+            className="bg-white border-slate-300 shadow-sm"
           >
             <Menu className="h-4 w-4" />
           </Button>
@@ -113,72 +97,62 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
       {/* Mobile Overlay */}
       {isMobileOpen && (
         <div 
-          className="lg:hidden fixed inset-0 bg-black/50 z-40 backdrop-blur-sm"
+          className="lg:hidden fixed inset-0 bg-slate-900/50 z-40"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
 
       {/* Sidebar */}
       <div className={cn(
-        "fixed lg:relative inset-y-0 left-0 z-50 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex flex-col transition-all duration-300 ease-in-out shadow-xl lg:shadow-none",
+        "fixed lg:relative inset-y-0 left-0 z-50 bg-white border-r border-slate-200 flex flex-col transition-all duration-300",
         isMobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
         isCollapsed ? "lg:w-20" : "w-80 lg:w-72"
       )}>
         {/* Header */}
-        <div className="p-6 border-b border-gray-100 dark:border-gray-800">
+        <div className="p-6 border-b border-slate-100">
           <div className={cn(
             "flex items-center transition-all duration-300",
             isCollapsed ? "lg:justify-center" : "justify-between"
           )}>
             <div className={cn("flex items-center gap-3", isCollapsed && "lg:justify-center")}>
               <div className="relative">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center shadow-sm">
+                <div className="w-10 h-10 bg-slate-900 rounded-lg flex items-center justify-center">
                   <Shield className="h-5 w-5 text-white" />
                 </div>
                 {getTotalPriorityItems() > 0 && !isCollapsed && (
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-                    <span className="text-xs font-semibold text-white">{getTotalPriorityItems()}</span>
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-600 rounded-full flex items-center justify-center">
+                    <span className="text-xs font-bold text-white">{getTotalPriorityItems()}</span>
                   </div>
                 )}
               </div>
               
               {!isCollapsed && (
                 <div className="flex-1">
-                  <h2 className="text-lg font-bold text-gray-900 dark:text-white">PMS</h2>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">Polyclinic Management System</p>
+                  <h2 className="text-lg font-bold text-slate-900">ECHS Portal</h2>
+                  <p className="text-xs text-slate-600 font-medium">Regional Centre</p>
                 </div>
               )}
             </div>
             
-            {/* Close button for mobile - Always visible on mobile */}
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setIsMobileOpen(false)}
-              className="lg:hidden text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300"
+              className="lg:hidden text-slate-400 hover:text-slate-600"
             >
               <X className="h-4 w-4" />
             </Button>
           </div>
-
-          {/* Status Indicator */}
-          {!isCollapsed && (
-            <div className="mt-4 flex items-center gap-2 px-3 py-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
-              <Zap className="h-4 w-4 text-green-600 dark:text-green-400" />
-              <span className="text-sm text-green-700 dark:text-green-300 font-medium">System Active</span>
-              <div className="ml-auto w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-            </div>
-          )}
         </div>
         
         {/* Navigation */}
-        <nav className="flex-1 p-4 overflow-y-auto scrollbar-thin scrollbar-track-gray-100 scrollbar-thumb-gray-300 dark:scrollbar-track-gray-800 dark:scrollbar-thumb-gray-600">
+        <nav className="flex-1 p-4 overflow-y-auto">
           <div className="space-y-6">
             {menuSections.map((section) => (
               <div key={section.title}>
                 {!isCollapsed && (
-                  <div className="px-2 mb-2">
-                    <h3 className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  <div className="px-2 mb-3">
+                    <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                       {section.title}
                     </h3>
                   </div>
@@ -194,10 +168,10 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
                         <button
                           onClick={() => handleViewChange(item.id)}
                           className={cn(
-                            "w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 relative",
+                            "w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition-all duration-200",
                             isActive
-                              ? "bg-blue-600 text-white shadow-sm"
-                              : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white",
+                              ? "bg-slate-900 text-white"
+                              : "text-slate-700 hover:bg-slate-100 hover:text-slate-900",
                             isCollapsed && "lg:justify-center lg:px-2"
                           )}
                           title={isCollapsed ? item.label : undefined}
@@ -205,7 +179,7 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
                           <div className="relative">
                             <Icon className="h-5 w-5" />
                             {item.priority && item.badge && (
-                              <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
+                              <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-600 rounded-full"></div>
                             )}
                           </div>
                           
@@ -229,8 +203,9 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
 
                         {/* Tooltip for collapsed state */}
                         {isCollapsed && (
-                          <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 invisible group-hover:visible z-50 px-2 py-1 bg-gray-900 dark:bg-gray-700 text-white dark:text-gray-100 text-xs rounded whitespace-nowrap shadow-lg">
-                            {item.label}
+                          <div className="absolute left-full ml-2 top-1/2 -translate-y-1/2 invisible group-hover:visible z-50 px-3 py-2 bg-slate-900 text-white text-xs rounded-lg whitespace-nowrap shadow-lg">
+                            <div className="font-medium">{item.label}</div>
+                            <div className="text-slate-300 text-xs">{item.description}</div>
                           </div>
                         )}
                       </div>
@@ -240,81 +215,50 @@ export default function Sidebar({ currentView, onViewChange }: SidebarProps) {
               </div>
             ))}
           </div>
-
-          {/* Priority Alert */}
-          {!isCollapsed && getTotalPriorityItems() > 0 && (
-            <div className="mt-6 p-4 bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-lg">
-              <div className="flex items-start gap-3">
-                <AlertCircle className="h-4 w-4 text-orange-600 dark:text-orange-400 mt-0.5" />
-                <div className="flex-1">
-                  <p className="text-sm font-medium text-orange-900 dark:text-orange-100 mb-2">Attention Required</p>
-                  <div className="space-y-1 text-xs text-orange-700 dark:text-orange-300">
-                    <div className="flex justify-between">
-                      <span>Personnel Issues</span>
-                      <span className="font-medium">47</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Equipment Alerts</span>
-                      <span className="font-medium">23</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>Pending Reports</span>
-                      <span className="font-medium">8</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
         </nav>
 
         {/* User Profile & Controls */}
-        <div className="p-4 border-t border-gray-100 dark:border-gray-800">
-        
-
+        <div className="p-4 border-t border-slate-100">
           {/* User Profile */}
           <div className={cn(
             "flex items-center gap-3 mb-4 p-2 rounded-lg",
             isCollapsed && "lg:justify-center"
           )}>
             <div className="relative">
-              <div className="w-8 h-8 bg-gradient-to-br from-gray-600 to-gray-700 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-slate-700 rounded-lg flex items-center justify-center">
                 <User className="h-4 w-4 text-white" />
               </div>
-              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-500 border-2 border-white dark:border-gray-900 rounded-full"></div>
+              <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-white rounded-full"></div>
             </div>
             
             {!isCollapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 dark:text-white truncate">Admin Officer</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 truncate">Regional Command</p>
+                <p className="text-sm font-semibold text-slate-900 truncate">Admin Officer</p>
+                <p className="text-xs text-slate-600 truncate">Regional Centre</p>
               </div>
             )}
           </div>
           
           {/* Control Buttons */}
           <div className="flex gap-2">
-            {/* Theme toggle for collapsed state */}
-           
-            
             <Button 
               variant="outline" 
               size="sm" 
-              className={cn("flex-1", isCollapsed && "lg:w-auto")}
+              className={cn("flex-1 border-slate-300", isCollapsed && "lg:w-auto")}
               onClick={() => setIsCollapsed(!isCollapsed)}
             >
               {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-              {!isCollapsed && <span className="ml-1 hidden sm:inline">Minimize</span>}
+              {!isCollapsed && <span className="ml-1 hidden sm:inline">Collapse</span>}
             </Button>
             
             {!isCollapsed && (
               <Button 
                 variant="outline" 
                 size="sm"
-                className="flex-1 text-red-600 border-red-200 hover:bg-red-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/20"
+                className="flex-1 text-red-700 border-red-300 hover:bg-red-50"
               >
                 <LogOut className="h-4 w-4" />
-                <span className="ml-1 hidden sm:inline">Exit</span>
+                <span className="ml-1 hidden sm:inline">Logout</span>
               </Button>
             )}
           </div>

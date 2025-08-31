@@ -5,103 +5,101 @@ import { FileText, Users, Settings2, Truck, Clock, HeadphonesIcon, TrendingUp, T
 export default function DashboardCards() {
   const stats = [
     {
-      title: "Reports Submitted",
-      value: "142",
-      total: "152",
-      percentage: 93,
+      title: "Monthly Returns",
+      value: "18",
+      total: "20",
+      percentage: 90,
       icon: FileText,
-      trend: "+12%",
+      trend: "+2",
       trendUp: true,
-      status: "success"
+      status: "good",
+      subtitle: "Submitted on time"
     },
     {
-      title: "Personnel Vacancies",
-      value: "47",
-      subtitle: "Open positions",
+      title: "Personnel Gaps",
+      value: "12",
+      subtitle: "Vacant positions",
       icon: Users,
-      trend: "+7",
-      trendUp: true,
-      status: "warning"
-    },
-    {
-      title: "Equipment Issues",
-      value: "23",
-      subtitle: "Maintenance required",
-      icon: Settings2,
-      trend: "-5",
+      trend: "-3",
       trendUp: false,
       status: "attention"
     },
     {
-      title: "Fleet Availability",
-      value: "34",
-      total: "38",
-      percentage: 89,
+      title: "Equipment Issues",
+      value: "5",
+      subtitle: "Require attention",
+      icon: Settings2,
+      trend: "-2",
+      trendUp: false,
+      status: "warning"
+    },
+    {
+      title: "Fleet Status",
+      value: "18",
+      total: "20",
+      percentage: 90,
       icon: Truck,
-      trend: "89%",
-      status: "good"
+      trend: "90%",
+      status: "good",
+      subtitle: "Operational"
     },
     {
       title: "Overdue Items",
-      value: "8",
+      value: "3",
       subtitle: "Immediate action",
       icon: Clock,
-      trend: "+3",
-      trendUp: true,
+      trend: "-1",
+      trendUp: false,
       status: "critical"
     },
     {
-      title: "Support Requests",
-      value: "12",
-      subtitle: "Active tickets",
+      title: "Support Tickets",
+      value: "4",
+      subtitle: "Active cases",
       icon: HeadphonesIcon,
-      trend: "-2",
-      trendUp: false,
+      trend: "New",
       status: "normal"
     }
   ]
 
   const getStatusColor = (status: string) => {
     const colors = {
-      success: 'text-emerald-600 dark:text-emerald-400',
-      warning: 'text-amber-600 dark:text-amber-400',
-      attention: 'text-orange-600 dark:text-orange-400',
-      good: 'text-blue-600 dark:text-blue-400',
-      critical: 'text-red-600 dark:text-red-400',
-      normal: 'text-gray-600 dark:text-gray-400'
+      good: 'text-emerald-700',
+      attention: 'text-amber-700',
+      warning: 'text-orange-700',
+      critical: 'text-red-700',
+      normal: 'text-slate-700'
     }
     return colors[status as keyof typeof colors] || colors.normal
   }
 
   const getIconBg = (status: string) => {
     const colors = {
-      success: 'bg-emerald-50 dark:bg-emerald-900/20',
-      warning: 'bg-amber-50 dark:bg-amber-900/20',
-      attention: 'bg-orange-50 dark:bg-orange-900/20',
-      good: 'bg-blue-50 dark:bg-blue-900/20',
-      critical: 'bg-red-50 dark:bg-red-900/20',
-      normal: 'bg-gray-50 dark:bg-gray-800'
+      good: 'bg-emerald-100',
+      attention: 'bg-amber-100',
+      warning: 'bg-orange-100',
+      critical: 'bg-red-100',
+      normal: 'bg-slate-100'
     }
     return colors[status as keyof typeof colors] || colors.normal
   }
 
   const getProgressBg = (status: string) => {
     const colors = {
-      success: 'bg-emerald-600 dark:bg-emerald-400',
-      warning: 'bg-amber-600 dark:bg-amber-400',
-      attention: 'bg-orange-600 dark:bg-orange-400',
-      good: 'bg-blue-600 dark:bg-blue-400',
-      critical: 'bg-red-600 dark:bg-red-400',
-      normal: 'bg-gray-600 dark:bg-gray-400'
+      good: 'bg-emerald-600',
+      attention: 'bg-amber-500',
+      warning: 'bg-orange-500',
+      critical: 'bg-red-600',
+      normal: 'bg-slate-500'
     }
     return colors[status as keyof typeof colors] || colors.normal
   }
 
   const getTrendColor = (trendUp: boolean, status: string) => {
     if (status === 'critical' || status === 'warning') {
-      return trendUp ? 'text-red-500 dark:text-red-400' : 'text-emerald-500 dark:text-emerald-400'
+      return trendUp ? 'text-red-600' : 'text-emerald-600'
     }
-    return trendUp ? 'text-emerald-500 dark:text-emerald-400' : 'text-red-500 dark:text-red-400'
+    return trendUp ? 'text-emerald-600' : 'text-red-600'
   }
 
   return (
@@ -111,16 +109,22 @@ export default function DashboardCards() {
         const TrendIcon = stat.trendUp ? TrendingUp : TrendingDown
         
         return (
-          <Card key={index} className="relative overflow-hidden border-0 shadow-sm hover:shadow-md transition-shadow duration-300 bg-card dark:bg-card">
+          <Card key={index} className="border border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm transition-all duration-200">
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <div className={`p-2 rounded-lg ${getIconBg(stat.status)}`}>
-                  <Icon className={`h-5 w-5 ${getStatusColor(stat.status)}`} />
+                <div className={`p-2.5 rounded-xl ${getIconBg(stat.status)}`}>
+                  <Icon className={`h-4 w-4 ${getStatusColor(stat.status)}`} />
                 </div>
                 {stat.trend && (
                   <div className="flex items-center gap-1">
-                    <TrendIcon className={`h-3 w-3 ${getTrendColor(stat.trendUp!, stat.status)}`} />
-                    <span className={`text-xs font-medium ${getTrendColor(stat.trendUp!, stat.status)}`}>
+                    {stat.trendUp !== undefined && (
+                      <TrendIcon className={`h-3 w-3 ${getTrendColor(stat.trendUp, stat.status)}`} />
+                    )}
+                    <span className={`text-xs font-semibold ${
+                      stat.trendUp !== undefined 
+                        ? getTrendColor(stat.trendUp, stat.status)
+                        : 'text-slate-600'
+                    }`}>
                       {stat.trend}
                     </span>
                   </div>
@@ -131,20 +135,20 @@ export default function DashboardCards() {
             <CardContent className="pt-0">
               <div className="space-y-3">
                 <div>
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-bold text-foreground">{stat.value}</span>
+                  <div className="flex items-baseline gap-2 mb-1">
+                    <span className="text-2xl font-bold text-slate-900">{stat.value}</span>
                     {stat.total && (
-                      <span className="text-sm font-medium text-muted-foreground">of {stat.total}</span>
+                      <span className="text-sm font-medium text-slate-500">of {stat.total}</span>
                     )}
                   </div>
                   
                   {stat.percentage && (
-                    <div className="mt-2">
-                      <div className="flex justify-between text-xs mb-1">
-                        <span className="text-muted-foreground">Progress</span>
-                        <span className="font-medium text-foreground">{stat.percentage}%</span>
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-slate-500">Progress</span>
+                        <span className="font-semibold text-slate-700">{stat.percentage}%</span>
                       </div>
-                      <div className="w-full bg-gray-100 dark:bg-gray-800 rounded-full h-1.5">
+                      <div className="w-full bg-slate-100 rounded-full h-1.5">
                         <div 
                           className={`h-1.5 rounded-full ${getProgressBg(stat.status)}`}
                           style={{ width: `${stat.percentage}%` }}
@@ -155,9 +159,9 @@ export default function DashboardCards() {
                 </div>
                 
                 <div>
-                  <h3 className="font-medium text-foreground text-sm leading-tight">{stat.title}</h3>
+                  <h3 className="font-semibold text-slate-900 text-sm mb-0.5">{stat.title}</h3>
                   {stat.subtitle && (
-                    <p className="text-xs text-muted-foreground mt-0.5">{stat.subtitle}</p>
+                    <p className="text-xs text-slate-600">{stat.subtitle}</p>
                   )}
                 </div>
               </div>
