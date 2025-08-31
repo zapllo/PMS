@@ -158,7 +158,7 @@ export default function Home() {
     <div className="flex h-screen bg-slate-50">
       <Sidebar currentView={currentView} onViewChange={setCurrentView} />
       <main className="flex-1 overflow-auto">
-        <div className="p-6 lg:p-8 max-w-7xl mx-auto pt-20 lg:pt-8">
+        <div className="p-6 lg:p-8 mx-auto pt-20 lg:pt-8">
           {renderContent()}
         </div>
       </main>
