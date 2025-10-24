@@ -19,11 +19,13 @@ import { Badge } from '@/components/ui/badge'
 import { getPolyclinicActivity, getPolyclinicEquipment, getPolyclinicPersonnel, getPolyclinicReports, getPolyclinicVehicles, mockPolyclinics } from '@/lib/mockData'
 import CommunicationsView from '@/components/CommunicationsView'
 import LoginPage from '@/components/LoginPage'
+import RoleSelectionPage from '@/components/RoleSelectionPage'
 import { useAuth } from '@/contexts/AuthContext'
 
 export default function Home() {
   const [currentView, setCurrentView] = useState('dashboard')
   const [selectedPolyclinic, setSelectedPolyclinic] = useState(null)
+  const [selectedRole, setSelectedRole] = useState<'admin' | 'polyclinic' | 'public' | null>(null)
   const { isAuthenticated, user } = useAuth()
 
   // Reset view when user logs in or role changes
@@ -37,9 +39,14 @@ export default function Home() {
     }
   }, [isAuthenticated, user?.role])
 
-  // Show login page if not authenticated
-  if (!isAuthenticated) {
-    return <LoginPage />
+  // Show role selection page if not authenticated and no role selected
+  if (!isAuthenticated && !selectedRole) {
+    return <RoleSelectionPage onRoleSelect={setSelectedRole} />
+  }
+
+  // Show login page if not authenticated but role is selected
+  if (!isAuthenticated && selectedRole) {
+    return <LoginPage selectedRole={selectedRole} onBack={() => setSelectedRole(null)} />
   }
 
   const renderContent = () => {
