@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Search, Download, Plus, ExternalLink, Filter, ArrowLeft } from 'lucide-react'
 import Sidebar from '@/components/Sidebar'
 import DashboardCards from '@/components/DashboardCards'
+import PolyclinicDashboardCards from '@/components/PolyclinicDashboardCards'
 import PolyclinicGrid from '@/components/PolyclinicGrid'
 import AnnouncementsView from '@/components/AnnouncementsView'
 import TicketsView from '@/components/TicketsView'
@@ -44,6 +45,130 @@ export default function Home() {
   const renderContent = () => {
     switch (currentView) {
       case 'dashboard':
+        // Render different dashboards based on user role
+        if (user?.role === 'polyclinic') {
+          return (
+            <div className="space-y-8">
+              {/* Polyclinic Header */}
+              <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div>
+                  <h1 className="text-3xl lg:text-4xl font-bold text-slate-900">Polyclinic Dashboard</h1>
+                  <p className="text-slate-600 mt-2">ECHS Polyclinic Operations & Management</p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <Button variant="outline" className="bg-white border-slate-300">
+                    <Download className="h-4 w-4 mr-2" />
+                    Export Data
+                  </Button>
+                  <Button
+                    onClick={() => setCurrentView('reports')}
+                    className="bg-slate-900 hover:bg-slate-800 text-white"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Submit Return
+                  </Button>
+                </div>
+              </div>
+
+              {/* Polyclinic Stats Cards */}
+              <PolyclinicDashboardCards />
+
+              {/* Quick Actions Section */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card className="border border-slate-200">
+                  <CardHeader className="border-b border-slate-100">
+                    <CardTitle className="text-lg font-semibold text-slate-900">Quick Actions</CardTitle>
+                    <CardDescription>Common tasks and operations</CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-6">
+                    <div className="grid grid-cols-2 gap-3">
+                      <Button 
+                        variant="outline" 
+                        className="h-auto py-4 flex flex-col items-center gap-2 bg-white"
+                        onClick={() => setCurrentView('manpower')}
+                      >
+                        <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center">
+                          <span className="text-xl">👥</span>
+                        </div>
+                        <span className="text-sm font-medium">Personnel</span>
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="h-auto py-4 flex flex-col items-center gap-2 bg-white"
+                        onClick={() => setCurrentView('equipment')}
+                      >
+                        <div className="w-10 h-10 rounded-lg bg-emerald-100 flex items-center justify-center">
+                          <span className="text-xl">⚕️</span>
+                        </div>
+                        <span className="text-sm font-medium">Equipment</span>
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="h-auto py-4 flex flex-col items-center gap-2 bg-white"
+                        onClick={() => setCurrentView('vehicles')}
+                      >
+                        <div className="w-10 h-10 rounded-lg bg-purple-100 flex items-center justify-center">
+                          <span className="text-xl">🚗</span>
+                        </div>
+                        <span className="text-sm font-medium">Fleet</span>
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        className="h-auto py-4 flex flex-col items-center gap-2 bg-white"
+                        onClick={() => setCurrentView('reports')}
+                      >
+                        <div className="w-10 h-10 rounded-lg bg-orange-100 flex items-center justify-center">
+                          <span className="text-xl">📋</span>
+                        </div>
+                        <span className="text-sm font-medium">Returns</span>
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border border-slate-200">
+                  <CardHeader className="border-b border-slate-100">
+                    <CardTitle className="text-lg font-semibold text-slate-900">Recent Activities</CardTitle>
+                    <CardDescription>Latest updates and changes</CardDescription>
+                  </CardHeader>
+                  <CardContent className="pt-6">
+                    <div className="space-y-4">
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                          <span className="text-sm">✓</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-slate-900">Equipment maintenance completed</p>
+                          <p className="text-xs text-slate-600">X-ray machine - 2 hours ago</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+                          <span className="text-sm">👤</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-slate-900">New staff member joined</p>
+                          <p className="text-xs text-slate-600">Nursing Assistant - Today</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center flex-shrink-0">
+                          <span className="text-sm">📄</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium text-slate-900">Monthly return submitted</p>
+                          <p className="text-xs text-slate-600">October report - Yesterday</p>
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+          )
+        }
+        
+        // Admin Dashboard (default)
         return (
           <div className="space-y-8">
             {/* Header */}
