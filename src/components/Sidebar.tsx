@@ -21,7 +21,8 @@ import {
   ChevronLeft,
   ChevronRight,
   User,
-  MessageSquareMore
+  MessageSquareMore,
+  Star
 } from 'lucide-react'
 import { useState } from 'react'
 import { useAuth, UserRole } from '@/contexts/AuthContext'
@@ -54,6 +55,7 @@ const menuSections = [
     title: 'Support',
     items: [
       { id: 'tickets', label: 'Support', icon: HeadphonesIcon, badge: '4', priority: false, description: 'Technical Support', roles: ['admin', 'polyclinic', 'public'] },
+      { id: 'feedback', label: 'Feedback', icon: Star, badge: null, priority: false, description: 'Polyclinic Feedback', roles: ['public'] },
       { id: 'settings', label: 'Settings', icon: Settings, badge: null, priority: false, description: 'System Settings', roles: ['admin', 'polyclinic'] },
     ]
   }

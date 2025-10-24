@@ -14,6 +14,7 @@ import ReportsView from '@/components/ReportsView'
 import ManpowerView from '@/components/ManpowerView'
 import EquipmentView from '@/components/EquipmentView'
 import VehiclesView from '@/components/VehiclesView'
+import PolyclinicFeedbackView from '@/components/PolyclinicFeedbackView'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { getPolyclinicActivity, getPolyclinicEquipment, getPolyclinicPersonnel, getPolyclinicReports, getPolyclinicVehicles, mockPolyclinics } from '@/lib/mockData'
@@ -288,6 +289,8 @@ export default function Home() {
         return <VehiclesView />
       case 'communications':
         return <CommunicationsView />
+      case 'feedback':
+        return <PolyclinicFeedbackView />
       default:
         return (
           <div className="flex items-center justify-center h-96">
